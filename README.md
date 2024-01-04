@@ -1,5 +1,5 @@
-# Mantine Next Template
+# Book Reader
 
-Get started with the template by clicking `Use this template` button on the top of the page.
+This app is meant to help kids with dyslexia read some stories
 
-[Documentation](https://mantine.dev/guides/next/)
+
