@@ -18,11 +18,9 @@ export default function IndexPage() {
       <Button size="xl" onClick={() => router.push('/iepurele-si-ariciul')}>Iepurele si ariciul</Button>
       <Button size="xl" onClick={() => router.push('/cei-trei-purcelusi')}>Cei trei purcelusi</Button>
       <Button size="xl" onClick={() => router.push('/iepurasul-Peter')}>Iepurasul Peter</Button>
-      <Button size="xl" onClick={() => router.push('/soarecele-de-rand-si-soarecele-de-oras')}>Soarecele de Rand si Soarecele de Oras </Button>
+      <Button size="xl" onClick={() => router.push('/hansel-si-gretel')}>Hansel si Gretel </Button>
       <Button size="xl" onClick={() => setColorScheme('dark')}>Dark</Button>
       <Button size="xl" onClick={() => setColorScheme('light')}>Light</Button>
-
-
     </Group>
   );
 }
