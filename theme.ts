@@ -1,6 +1,7 @@
 import { createTheme, MantineTheme } from "@mantine/core";
 
 export const theme = createTheme({
+  fontFamily: 'arial',
   components: {
     Button: {
       styles: (theme: MantineTheme) => ({
@@ -9,17 +10,18 @@ export const theme = createTheme({
     },
     Notification: {
       styles: (theme: MantineTheme) => ({
-        root:{
+        root: {
           marginBottom: 10
         }
       })
     },
     Modal: {
       styles: (theme: MantineTheme) => ({
-        content:{
+        content: {
           alignSelf: 'center'
         }
       })
     }
   }
 });
+
