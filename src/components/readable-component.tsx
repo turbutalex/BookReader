@@ -64,8 +64,8 @@ export const Readable = (props: ReadableProps) => {
   }
 
   return (
-    <>
-      <Button size="xl" onClick={() => read()}>Read</Button>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <Button size="xl" style={{marginBottom: '20px' }} onClick={() => read()}>Ascultă povestea!</Button>
       <div style={{
         width: '50%',
       }}>
@@ -89,9 +89,11 @@ export const Readable = (props: ReadableProps) => {
           </Text>
         ))}
       </div>
-      <Button onClick={() => router.push('/')}>Alta Poveste</Button>
-      {isGameOpened && <Game text={text} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}
-      <Button onClick={() => setIsGameOpened(true)}>Play Game!</Button>
-    </>
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', marginTop: '20px', marginBottom: '20px' }}>
+        <Button size="xl" onClick={() => router.push('/')}>Alege altă poveste!</Button>
+        {isGameOpened && <Game text={text} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}
+        <Button size="xl" onClick={() => setIsGameOpened(true)}>Ghicește cuvântul!</Button>
+      </div>
+    </div>
   );
 }

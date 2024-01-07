@@ -99,18 +99,18 @@ export const Game = (props: GameProps) => {
       <TextInput onChange={e => setTypedWord(e.target.value)}/>
       <div style={styles.buttonContainer}>
         <Button onClick={validateInput}>
-          Verifica
+          Verifică
         </Button>
         <Button onClick={getNewWord}>
-          Urmatorul
+          Următorul
         </Button>
       </div>
       <div style={styles.buttonContainer}>
         <Button onClick={readWord}>
-          Asculta
+          Ascultă
         </Button>
         <Button onClick={showAnswer}>
-          Vezi Raspunsul
+          Vezi Răspunsul
         </Button>
       </div>
     </Modal>
