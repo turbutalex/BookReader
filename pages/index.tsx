@@ -12,7 +12,12 @@ export default function IndexPage() {
 
   return (
     <Group mt={50} justify="center">
-      <Button size="xl" onClick={() => router.push('/poveste-unu')}>Poveste Unu</Button>
+      <Button size="xl" onClick={() => router.push('/printesa-si-bobul-de-mazare')}>Printesa si bobul de mazare</Button>
+      <Button size="xl" onClick={() => router.push('/iepurele-si-ariciul')}>Iepurele si ariciul</Button>
+      <Button size="xl" onClick={() => router.push('/cei-trei-purcelusi')}>Cei trei purcelusi</Button>
+      <Button size="xl" onClick={() => router.push('/iepurasul-Peter')}>Iepurasul Peter</Button>
+      <Button size="xl" onClick={() => router.push('/soarecele-de-rand-si-soarecele-de-oras')}>Soarecele de Rand si Soarecele de Oras </Button>
+
     </Group>
   );
 }

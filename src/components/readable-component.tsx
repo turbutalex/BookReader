@@ -24,6 +24,7 @@ export const Readable = (props: ReadableProps) => {
       speaker.lang = "ro-RO"
       window.speechSynthesis.speak(speaker)
     }
+    console.log(text.split(' '))
   }, [])
 
   const read = (word?: string) => {
@@ -59,29 +60,35 @@ export const Readable = (props: ReadableProps) => {
   }
 
   const computeEndLine = (word: string) => {
-    return word == '\n';
-
+    return word == "\n";
   }
 
   return (
     <>
       <Button size="xl" onClick={() => read()}>Read</Button>
-      <p>
+      <div style={{
+        width: '50%',
+      }}>
         {text.split(' ').map((word, index) => (
-          <Text span key={index} style={{
+          <Text key={index} style={{
             textDecoration: word === highlightedWord ? 'underline' : 'none',
             fontSize: index === hoveredWordIndex ? 25 : 15,
             transition: 'font-size 0.3s ease',
             cursor: 'pointer',
             marginRight: '7px',
+            whiteSpace: 'initial',
+            margin: 0,
+            display: 'inline',
+            wordBreak: 'break-word',
+        
           }} onClick={() => read(word)}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
           >
-            {word}{computeEndLine(word) ? <br/> : <></>}
+            {computeEndLine(word) && <br></br>}{word}{" "}
           </Text>
         ))}
-      </p>
+      </div>
       <Button onClick={() => router.push('/')}>Alta Poveste</Button>
       {isGameOpened && <Game text={text} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}
       <Button onClick={() => setIsGameOpened(true)}>Play Game!</Button>

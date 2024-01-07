@@ -6,7 +6,6 @@ import { theme } from "../theme";
 export default function App({ Component, pageProps }: any) {
   return (
     <MantineProvider theme={theme}>
-      <TypographyStylesProvider>
         <Head>
           <title>Mantine Template</title>
           <meta
@@ -16,7 +15,6 @@ export default function App({ Component, pageProps }: any) {
           <link rel="shortcut icon" href="/favicon.svg"/>
         </Head>
         <Component {...pageProps} />
-      </TypographyStylesProvider>
     </MantineProvider>
   );
 }
