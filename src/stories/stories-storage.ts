@@ -1,1 +1,1 @@
-export const povesteUnu = "Într-un mic sat de pe malul unei râuri, trăia o bătrână blândă și iubitoare numită Ana."
+export const povesteUnu = "Într-un mic \n sat de pe malul unei râuri, trăia o bătrână blândă și iubitoare numită Ana."

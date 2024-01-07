@@ -1,6 +1,7 @@
 import { Button, Group, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { Game } from "./game-component";
 
 interface ReadableProps {
   text: string
@@ -15,6 +16,7 @@ export const Readable = (props: ReadableProps) => {
 
   const [highlightedWord, setHighlightedWord] = useState('')
   const [hoveredWordIndex, setHoveredWordIndex] = useState(-1)
+  const [isGameOpened, setIsGameOpened] = useState(false)
 
   useEffect(() => {
     if (window['speechSynthesis'] !== undefined) {
@@ -56,23 +58,33 @@ export const Readable = (props: ReadableProps) => {
     setHoveredWordIndex(-1)
   }
 
+  const computeEndLine = (word: string) => {
+    return word == '\n';
+
+  }
+
   return (
-    <Group mt={50} justify="center">
+    <>
       <Button size="xl" onClick={() => read()}>Read</Button>
-      {text.split(' ').map((word, index) => (
-        <Text span key={index} style={{
-          textDecoration: word === highlightedWord ? 'underline' : 'none',
-          fontSize: index === hoveredWordIndex ? 25 : 15,
-          transition: 'font-size 0.3s ease',
-          cursor: 'pointer'
-        }} onClick={() => read(word)}
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={() => handleMouseLeave(index)}
-        >
-          {word}{' '}
-        </Text>
-      ))}
+      <p>
+        {text.split(' ').map((word, index) => (
+          <Text span key={index} style={{
+            textDecoration: word === highlightedWord ? 'underline' : 'none',
+            fontSize: index === hoveredWordIndex ? 25 : 15,
+            transition: 'font-size 0.3s ease',
+            cursor: 'pointer',
+            marginRight: '7px',
+          }} onClick={() => read(word)}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+          >
+            {word}{computeEndLine(word) ? <br/> : <></>}
+          </Text>
+        ))}
+      </p>
       <Button onClick={() => router.push('/')}>Alta Poveste</Button>
-    </Group>
+      {isGameOpened && <Game text={text} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}
+      <Button onClick={() => setIsGameOpened(true)}>Play Game!</Button>
+    </>
   );
 }
