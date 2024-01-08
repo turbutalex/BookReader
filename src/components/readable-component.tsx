@@ -13,18 +13,25 @@ export const Readable = (props: ReadableProps) => {
   const { text } = props
 
   const router = useRouter()
+  const oprestePovestea = "Oprește Citirea"
+  const continuaPovestea = "Continuă Povestea"
 
   const [highlightedWord, setHighlightedWord] = useState('')
   const [hoveredWordIndex, setHoveredWordIndex] = useState(-1)
   const [isGameOpened, setIsGameOpened] = useState(false)
+  const [isPaused, setIsPaused] = useState(true)
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     if (window['speechSynthesis'] !== undefined) {
-      speaker = new SpeechSynthesisUtterance()
-      speaker.lang = "ro-RO"
-      window.speechSynthesis.speak(speaker)
+      window.speechSynthesis.cancel()
     }
     console.log(text.split(' '))
+    return () => {
+      if (window['speechSynthesis'] !== undefined) {
+        window.speechSynthesis.cancel()
+      }
+    }
   }, [])
 
   const read = (word?: string) => {
@@ -46,7 +53,8 @@ export const Readable = (props: ReadableProps) => {
         }
       };
     }
-
+    setHasStarted(true)
+    setIsPaused(false)
     window.speechSynthesis.speak(utterance);
 
   }
@@ -63,9 +71,26 @@ export const Readable = (props: ReadableProps) => {
     return word == "\n";
   }
 
+  const pauseReading = () => {
+    if (!window.speechSynthesis.paused) {
+      window.speechSynthesis.pause()
+      setIsPaused(true)
+    }
+  }
+
+  const resumeReading = () => {
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume()
+      setIsPaused(false)
+    }
+    if (!hasStarted) {
+      read()
+    }
+  }
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <Button size="xl" style={{marginBottom: '20px' }} onClick={() => read()}>Ascultă povestea!</Button>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Button size="xl" style={{ marginBottom: '20px', width:'250px' }} onClick={() => read()}>Începe Povestea</Button>
       <div style={{
         width: '50%',
       }}>
@@ -80,7 +105,7 @@ export const Readable = (props: ReadableProps) => {
             margin: 0,
             display: 'inline',
             wordBreak: 'break-word',
-        
+
           }} onClick={() => read(word)}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
@@ -91,6 +116,10 @@ export const Readable = (props: ReadableProps) => {
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', marginTop: '20px', marginBottom: '20px' }}>
         <Button size="xl" onClick={() => router.push('/')}>Alege altă poveste!</Button>
+        <Button size="xl" style={{
+          width: '250px'
+        }}
+                onClick={() => isPaused ? resumeReading() : pauseReading()}>{isPaused ? continuaPovestea : oprestePovestea}</Button>
         {isGameOpened && <Game text={text} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}
         <Button size="xl" onClick={() => setIsGameOpened(true)}>Ghicește cuvântul!</Button>
       </div>
