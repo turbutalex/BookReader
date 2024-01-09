@@ -1,5 +1,5 @@
 import { Button, Group, Text, useMantineColorScheme } from "@mantine/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Readable } from "../src/components/readable-component";
 import { useRouter } from "next/router";
 
@@ -7,9 +7,10 @@ export default function IndexPage() {
 
   const router = useRouter()
 
-  const { setColorScheme, clearColorScheme } = useMantineColorScheme();
+  const { setColorScheme, clearColorScheme, colorScheme } = useMantineColorScheme();
 
   const [hoveredStory, setHoveredStory] = useState<string | null>(null);
+  const [h1Color, setH1Color] = useState<'black' | 'white'>(colorScheme === 'dark' ? 'white' : 'black');
 
   const stories = [
     { name: "Prințesa și bobul de mazăre", route: "/printesa-si-bobul-de-mazare" },
@@ -33,10 +34,15 @@ export default function IndexPage() {
       : "/MainPageImage.png";
   };
 
+  const handleColorSchemeChange = (colorScheme: 'dark' | 'light') => {
+    setColorScheme(colorScheme);
+    setH1Color(colorScheme === 'dark' ? 'white' : 'black');
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px'}}>
-      <Button size="xl">Alege povestea pe care vrei să o citești!</Button>
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%', marginTop: '80px', marginBottom: '80px' }}>
+      <h1 style={{fontFamily: 'Chewy', color: h1Color, fontSize: '40px'}}>Alege o poveste pentru a o citi sau asculta!</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '70%', marginTop: '50px', marginBottom: '80px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           {stories.map((story) => (
             <Button
@@ -45,17 +51,17 @@ export default function IndexPage() {
               onMouseOver={() => handleMouseOver(story.name)}
               onMouseOut={handleMouseOut}
               onClick={() => router.push(story.route)}
-              style={{ marginBottom: '20px', width: '1000px' }}
+              style={{ marginBottom: '20px', width: '600px', fontSize: '25px' }}
             >
               {story.name}
             </Button>
           ))}
         </div>
-        <img src={getStoryImageSource(hoveredStory as string)} alt="Povesti pentru copii" width="300px" height="300px"></img>
+        <img src={getStoryImageSource(hoveredStory as string)} alt="Povesti pentru copii" width="300px" height="300px" style={{border: '20px solid #73F9CE', borderRadius: '100px'}}></img>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%' }}>
-        <Button size="xl" onClick={() => setColorScheme('dark')}>Întunecat</Button>
-        <Button size="xl" onClick={() => setColorScheme('light')}>Luminos</Button>
+        <Button size="xl" onClick={() => handleColorSchemeChange('dark')}>Întunecat</Button>
+        <Button size="xl" onClick={() => handleColorSchemeChange('light')}>Luminos</Button>
       </div>
     </div>
   );

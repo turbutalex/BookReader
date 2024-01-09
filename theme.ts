@@ -1,11 +1,16 @@
-import { createTheme, MantineTheme } from "@mantine/core";
+import { createTheme, MantineTheme} from "@mantine/core";
 
 export const theme = createTheme({
   fontFamily: 'arial',
   components: {
     Button: {
       styles: (theme: MantineTheme) => ({
-        visibility: 'hidden'
+        visibility: 'hidden',
+        root: {
+          backgroundColor: '#73F9CE',
+          color: 'black',
+          fontFamily: 'Georgia'
+        }
       })
     },
     Notification: {

@@ -9,7 +9,7 @@ export default function IndexPage() {
 
   return (
     <Group mt={50} justify="center">
-      <Readable text={povesteTrei} imageSrc={"/purcelusi.png"} />
+      <Readable text={povesteTrei} imageSrc={"/purcelusi.png"} title={"Cei trei purcelusi"}/>
     </Group>
   );
 }

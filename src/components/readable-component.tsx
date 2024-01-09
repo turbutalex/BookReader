@@ -1,4 +1,4 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Group, Text, useMantineColorScheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Game } from "./game-component";
@@ -6,12 +6,16 @@ import { Game } from "./game-component";
 interface ReadableProps {
   text: string
   imageSrc: string
+  title: string
 }
 
 export const Readable = (props: ReadableProps) => {
   var speaker: any
 
-  const { text, imageSrc } = props
+  const { text, imageSrc, title } = props
+
+  const { colorScheme } = useMantineColorScheme();
+  const [h1Color, setH1Color] = useState<'black' | 'white'>(colorScheme === 'dark' ? 'white' : 'black');
 
   const router = useRouter()
   const oprestePovestea = "Oprește Citirea"
@@ -92,13 +96,16 @@ export const Readable = (props: ReadableProps) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Button size="xl" style={{ marginBottom: '20px', width:'250px' }} onClick={() => read()}>Începe Povestea</Button>
+      <Button size="xl" style={{ marginBottom: '20px', width:'300px' }} onClick={() => read()}>Începe Povestea</Button>
       <img src={imageSrc} alt="poza sumar poveste" width="500px" height="300px" style={{
-        marginBottom:'25px'
+        marginBottom:'25px',
+        border: '10px solid #73F9CE',
+        borderRadius: '50px'
       }}/>
       <div style={{
-        width: '50%',
+        width: '50%'
       }}>
+        <h1 style={{fontFamily: 'Chewy', color: h1Color, fontSize: '40px', textAlign: 'center'}}>{title}</h1>
         {text.split(' ').map((word, index) => (
           <Text key={index} style={{
             textDecoration: index === highlightedIndex ? 'underline' : 'none',
@@ -122,7 +129,7 @@ export const Readable = (props: ReadableProps) => {
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', marginTop: '20px', marginBottom: '20px' }}>
         <Button size="xl" onClick={() => router.push('/')}>Alege altă poveste!</Button>
         <Button size="xl" style={{
-          width: '250px'
+          width: '300px'
         }}
                 onClick={() => isPaused ? resumeReading() : pauseReading()}>{isPaused ? continuaPovestea : oprestePovestea}</Button>
         {isGameOpened && <Game text={text} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}

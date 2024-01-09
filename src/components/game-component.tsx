@@ -12,7 +12,7 @@ const gameStyles = () => ({
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     marginTop: '10px'
   }
 })
@@ -99,18 +99,18 @@ export const Game = (props: GameProps) => {
       {showCorrectWord && <Text>{correctWord}</Text>}
       <TextInput onChange={e => setTypedWord(e.target.value)}/>
       <div style={styles.buttonContainer}>
-        <Button onClick={validateInput}>
+        <Button style={{width: '175px'}} onClick={validateInput}>
           Verifică
         </Button>
-        <Button onClick={getNewWord}>
+        <Button style={{width: '175px'}} onClick={getNewWord}>
           Următorul
         </Button>
       </div>
       <div style={styles.buttonContainer}>
-        <Button onClick={readWord}>
+        <Button style={{width: '175px'}} onClick={readWord}>
           Ascultă
         </Button>
-        <Button onClick={showAnswer}>
+        <Button style={{width: '175px'}} onClick={showAnswer}>
           Vezi Răspunsul
         </Button>
       </div>
