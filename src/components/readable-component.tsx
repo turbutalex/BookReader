@@ -5,12 +5,13 @@ import { Game } from "./game-component";
 
 interface ReadableProps {
   text: string
+  imageSrc: string
 }
 
 export const Readable = (props: ReadableProps) => {
   var speaker: any
 
-  const { text } = props
+  const { text, imageSrc } = props
 
   const router = useRouter()
   const oprestePovestea = "Oprește Citirea"
@@ -92,6 +93,9 @@ export const Readable = (props: ReadableProps) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Button size="xl" style={{ marginBottom: '20px', width:'250px' }} onClick={() => read()}>Începe Povestea</Button>
+      <img src={imageSrc} alt="poza sumar poveste" width="500px" height="300px" style={{
+        marginBottom:'25px'
+      }}/>
       <div style={{
         width: '50%',
       }}>
