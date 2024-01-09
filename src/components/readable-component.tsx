@@ -16,7 +16,7 @@ export const Readable = (props: ReadableProps) => {
   const oprestePovestea = "Oprește Citirea"
   const continuaPovestea = "Continuă Povestea"
 
-  const [highlightedWord, setHighlightedWord] = useState('')
+  const [highlightedIndex, sethighlightedIndex] = useState(-1)
   const [hoveredWordIndex, setHoveredWordIndex] = useState(-1)
   const [isGameOpened, setIsGameOpened] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
@@ -46,7 +46,8 @@ export const Readable = (props: ReadableProps) => {
 
         for (const word of words) {
           if (boundaryIndex >= currentWord.length && boundaryIndex <= currentWord.length + word.length) {
-            setHighlightedWord(word);
+            sethighlightedIndex(words.indexOf(word));
+            words.splice(words.indexOf(word), words.indexOf(word))
             break;
           }
           currentWord += word + ' ';
@@ -96,7 +97,7 @@ export const Readable = (props: ReadableProps) => {
       }}>
         {text.split(' ').map((word, index) => (
           <Text key={index} style={{
-            textDecoration: word === highlightedWord ? 'underline' : 'none',
+            textDecoration: index === highlightedIndex ? 'underline' : 'none',
             fontSize: index === hoveredWordIndex ? 25 : 15,
             transition: 'font-size 0.3s ease',
             cursor: 'pointer',

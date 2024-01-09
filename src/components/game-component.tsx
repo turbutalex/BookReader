@@ -68,13 +68,14 @@ export const Game = (props: GameProps) => {
     setShowCorrectWord(false)
     setShowSuccess(false)
     setShowError(false)
-    const textAux = text.split(' ').filter(word => word.trim() !== '' && word !== "\n")
+    const textAux = text.split(' ').filter(word => word.trim() !== '' && word !== "\n" && word.length > 2)
     textAux.filter(word => word != correctWord)
     validateAndSetCorrectWord(textAux)
     readWord()
   }
 
   const readWord = () => {
+    window.speechSynthesis.cancel()
     const wordSpeaker = new SpeechSynthesisUtterance(correctWord)
     wordSpeaker.lang = "ro-RO"
     wordSpeaker.rate = 0.75
