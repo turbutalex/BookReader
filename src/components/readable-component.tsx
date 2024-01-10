@@ -10,7 +10,6 @@ interface ReadableProps {
 }
 
 export const Readable = (props: ReadableProps) => {
-  var speaker: any
 
   const { text, imageSrc, title } = props
 
@@ -26,12 +25,9 @@ export const Readable = (props: ReadableProps) => {
   const [isGameOpened, setIsGameOpened] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
   const [hasStarted, setHasStarted] = useState(false)
+  const [pausedIndex, setPausedIndex] = useState(-1)
 
   useEffect(() => {
-    if (window['speechSynthesis'] !== undefined) {
-      window.speechSynthesis.cancel()
-    }
-    console.log(text.split(' '))
     return () => {
       if (window['speechSynthesis'] !== undefined) {
         window.speechSynthesis.cancel()
@@ -39,30 +35,59 @@ export const Readable = (props: ReadableProps) => {
     }
   }, [])
 
+
   const read = (word?: string) => {
-    const utterance = new SpeechSynthesisUtterance(word ? word : text);
-    utterance.lang = "ro-RO"
-    utterance.rate = 0.75
-    if (!word) {
+    if (word) {
+      setIsPaused(true)
+      window.speechSynthesis.pause()
+      window.speechSynthesis.cancel()
+      window.speechSynthesis.resume()
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = "ro-RO"
+      utterance.rate = 0.75
+
+      window.speechSynthesis.speak(utterance)
+      window.speechSynthesis.pause()
+      const continuedUtterance = new SpeechSynthesisUtterance(pausedIndex == -1 ? text : text.substring(pausedIndex));
+      window.speechSynthesis.speak(continuedUtterance);
+      continuedUtterance.lang = "ro-RO"
+      continuedUtterance.rate = 0.75
+    } else {
+
+      const utterance = new SpeechSynthesisUtterance(pausedIndex == -1 ? text : text.substring(pausedIndex));
+      utterance.lang = "ro-RO"
+      utterance.rate = 0.75
+      let index = 0
+      utterance.onend = (event) => {
+        setPausedIndex(-1)
+      }
+      utterance.onpause = (event) => {
+        setPausedIndex(index)
+        console.log("Triggered")
+
+      }
+      const words = text.split(' ');
+
       utterance.onboundary = (event) => {
         const boundaryIndex = event.charIndex;
-        const words = text.split(' ');
         let currentWord = '';
 
-        for (const word of words) {
+        for (const word of text.split(' ')) {
           if (boundaryIndex >= currentWord.length && boundaryIndex <= currentWord.length + word.length) {
             sethighlightedIndex(words.indexOf(word));
-            words.splice(words.indexOf(word), words.indexOf(word))
+
+            words[words.indexOf(word)] = "null"
+            index++
             break;
           }
           currentWord += word + ' ';
         }
       };
+      setHasStarted(true)
+      setIsPaused(false)
+      window.speechSynthesis.resume()
+      window.speechSynthesis.speak(utterance);
     }
-    setHasStarted(true)
-    setIsPaused(false)
-    window.speechSynthesis.speak(utterance);
-
   }
 
   const handleMouseEnter = (index: number) => {
@@ -109,7 +134,7 @@ export const Readable = (props: ReadableProps) => {
         {text.split(' ').map((word, index) => (
           <Text key={index} style={{
             textDecoration: index === highlightedIndex ? 'underline' : 'none',
-            fontSize: index === hoveredWordIndex ? 25 : 15,
+            fontSize: 15,
             transition: 'font-size 0.3s ease',
             cursor: 'pointer',
             marginRight: '7px',
@@ -118,7 +143,7 @@ export const Readable = (props: ReadableProps) => {
             display: 'inline',
             wordBreak: 'break-word',
 
-          }} onClick={() => read(word)}
+          }}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
           >

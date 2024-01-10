@@ -5,7 +5,6 @@ export const theme = createTheme({
   components: {
     Button: {
       styles: (theme: MantineTheme) => ({
-        visibility: 'hidden',
         root: {
           backgroundColor: '#73F9CE',
           color: 'black',
@@ -17,6 +16,13 @@ export const theme = createTheme({
       styles: (theme: MantineTheme) => ({
         root: {
           marginBottom: 10
+        }
+      })
+    },
+    TextInput: {
+      styles: (theme: MantineTheme) => ({
+        label: {
+          fontSize: 18,
         }
       })
     },

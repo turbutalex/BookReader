@@ -39,6 +39,10 @@ export const Game = (props: GameProps) => {
     readWord()
   }, []);
 
+  useEffect(() => {
+    readWord()
+  }, [correctWord]);
+
   const validateAndSetCorrectWord = (textAux: string[]) => {
     var word = textAux[Math.floor(Math.random() * textAux.length)]
     if (".,!?:;".includes(word.charAt(word.length - 1))) {
@@ -71,7 +75,6 @@ export const Game = (props: GameProps) => {
     const textAux = text.split(' ').filter(word => word.trim() !== '' && word !== "\n" && word.length > 2)
     textAux.filter(word => word != correctWord)
     validateAndSetCorrectWord(textAux)
-    readWord()
   }
 
   const readWord = () => {
@@ -96,8 +99,8 @@ export const Game = (props: GameProps) => {
           Ai raspuns corect!
         </Notification>
       }
-      {showCorrectWord && <Text>{correctWord}</Text>}
-      <TextInput onChange={e => setTypedWord(e.target.value)}/>
+
+      <TextInput  label="Introdu Cuvântul" onChange={e => setTypedWord(e.target.value)}/>
       <div style={styles.buttonContainer}>
         <Button style={{width: '175px'}} onClick={validateInput}>
           Verifică
@@ -114,6 +117,12 @@ export const Game = (props: GameProps) => {
           Vezi Răspunsul
         </Button>
       </div>
+      {showCorrectWord && <Text style={{
+        marginTop: 10,
+        textAlign: 'end',
+        verticalAlign: 'middle',
+        width: '100%'
+      }}>Răspunsul corect este: {correctWord}</Text>}
     </Modal>
   )
 }
