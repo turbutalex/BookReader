@@ -90,13 +90,13 @@ export const Game = (props: GameProps) => {
       {showError
         &&
         <Notification icon={xIcon} color="red" title="Upss!" onClose={() => setShowError(false)}>
-          Raspunsul nu este corect. Mai incearca!
+          Răspunsul nu este corect. Mai incearcă!
         </Notification>
       }
       {showSuccess
         &&
         <Notification icon={checkIcon} color="teal" title="Bravo!" mt="md" onClose={() => setShowSuccess(false)}>
-          Ai raspuns corect!
+          Ai răspuns corect!
         </Notification>
       }
 
