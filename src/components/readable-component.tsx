@@ -13,6 +13,17 @@ export const Readable = (props: ReadableProps) => {
 
   const { text, imageSrc, title } = props
 
+  const linesPerPage = 10;
+  const totalLines = text.split('\n').filter(Boolean).length;
+  const totalPages = Math.ceil(totalLines / linesPerPage);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const startLine = (currentPage - 1) * linesPerPage;
+  const endLine = currentPage * linesPerPage;
+
+  const currentText = text.split('\n').filter(Boolean).slice(startLine, endLine).join('\n');
+
   const { colorScheme } = useMantineColorScheme();
   const [h1Color, setH1Color] = useState<'black' | 'white'>(colorScheme === 'dark' ? 'white' : 'black');
 
@@ -120,7 +131,7 @@ export const Readable = (props: ReadableProps) => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       <Button size="xl" style={{ marginBottom: '20px', width:'300px' }} onClick={() => read()}>Începe Povestea</Button>
       <img src={imageSrc} alt="poza sumar poveste" width="500px" height="300px" style={{
         marginBottom:'25px',
@@ -128,28 +139,21 @@ export const Readable = (props: ReadableProps) => {
         borderRadius: '50px'
       }}/>
       <div style={{
-        width: '50%'
+        width: '80%',
+        alignItems: 'center'
       }}>
         <h1 style={{fontFamily: 'Chewy', color: h1Color, fontSize: '40px', textAlign: 'center'}}>{title}</h1>
-        {text.split(' ').map((word, index) => (
-          <Text key={index} style={{
-            textDecoration: index === highlightedIndex ? 'underline' : 'none',
-            fontSize: 15,
-            transition: 'font-size 0.3s ease',
-            cursor: 'pointer',
-            marginRight: '7px',
-            whiteSpace: 'initial',
-            margin: 0,
-            display: 'inline',
-            wordBreak: 'break-word',
-
-          }}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
-          >
-            {computeEndLine(word) && <br></br>}{word}{" "}
-          </Text>
-        ))}
+        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+          <Button size="xl" style={{fontSize: '50px'}} onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>⬅</Button>
+          <div style={{ width: '87%'}}>
+            {currentText.split('\n').map((line, index) => (
+            <p key={index} style={{textAlign: 'center'}}>
+              {line}
+            </p>
+            ))}
+          </div>
+          <Button size="xl" style={{fontSize: '50px'}} onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>➡</Button>
+        </div>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', marginTop: '20px', marginBottom: '20px' }}>
         <Button size="xl" onClick={() => router.push('/')}>Alege altă poveste!</Button>
