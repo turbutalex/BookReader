@@ -9,7 +9,7 @@ export default function IndexPage() {
 
   return (
     <Group mt={50} justify="center">
-      <Readable text={povesteCinci} imageSrc={"/hansel-si-gretel.png"} title={"Hansel si Gretel"}/>
+      <Readable text={povesteCinci} imageSrc={"/hansel-si-gretel.png"} title={"Hansel si Gretel"} quiz={"Din ce era construită casa din pădure?"} choices={"Ciocolată,Turtă dulce,Alune,Caramel"} answer={2}/>
     </Group>
   );
 }

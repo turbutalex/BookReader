@@ -9,7 +9,7 @@ export default function IndexPage() {
 
   return (
     <Group mt={50} justify="center">
-      <Readable text={povesteTrei} imageSrc={"/purcelusi.png"} title={"Cei trei purcelusi"}/>
+      <Readable text={povesteTrei} imageSrc={"/purcelusi.png"} title={"Cei trei purcelusi"} quiz={"Care dintre purceluși era cel mai muncitor?"} choices={"Primul,Al doilea,Al treilea,Niciunul"} answer={3}/>
     </Group>
   );
 }

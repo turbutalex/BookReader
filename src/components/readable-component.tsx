@@ -7,11 +7,14 @@ interface ReadableProps {
   text: string
   imageSrc: string
   title: string
+  quiz: string
+  choices: string
+  answer: number
 }
 
 export const Readable = (props: ReadableProps) => {
 
-  const { text, imageSrc, title } = props
+  const { text, imageSrc, title, quiz, choices, answer } = props
 
   const linesPerPage = 10;
   const totalLines = text.split('\n').filter(Boolean).length;
@@ -161,8 +164,8 @@ export const Readable = (props: ReadableProps) => {
           width: '300px'
         }}
                 onClick={() => isPaused ? resumeReading() : pauseReading()}>{isPaused ? continuaPovestea : oprestePovestea}</Button>
-        {isGameOpened && <Game text={text} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}
-        <Button size="xl" onClick={() => setIsGameOpened(true)}>Ghicește cuvântul!</Button>
+        {isGameOpened && <Game text={text} quiz={quiz} choices={choices} answer={answer} opened={isGameOpened} onClose={() => setIsGameOpened(false)}/>}
+        <Button size="xl" onClick={() => setIsGameOpened(true)}>Răspunde la întrebare!</Button>
       </div>
     </div>
   );
